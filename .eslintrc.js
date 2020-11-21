@@ -19,5 +19,6 @@ module.exports = {
 		"no-useless-escape": "error", // 禁止不必要的转义使用
 		"no-var": "error",
 		"@typescript-eslint/explicit-module-boundary-types": "off",
+		"react/prop-types": [2, { ignore: ['children'] }]
 	}
 }

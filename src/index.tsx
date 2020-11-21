@@ -1,18 +1,21 @@
-import React , { Suspense } from 'react';
+import React , { Suspense } from 'react'
+import { Route , Switch , BrowserRouter as Router } from "react-router-dom"
 import ReactDOM from 'react-dom'
-import { Modal } from "src/components"
-
-function Loading (){
-	return <div>xxxxx</div>
-}
+import { Loading } from "src/components"
+import Routes from "src/routes"
 
 class App extends React.Component {
   render() {
 		return <div>
-			<Suspense fallback={<div>xxxxxsss</div>}>
-				<Loading />
-				<Modal />
-			</Suspense>
+			<Router>
+				<Suspense fallback={<Loading />}>
+						<Switch>
+							{
+								Routes.map( item => <Route key={item.name} path={item.path} component={item.component} />)
+							}
+						</Switch>
+				</Suspense>
+			</Router>
 		</div>
   }
 }

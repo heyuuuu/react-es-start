@@ -14,6 +14,7 @@ module.exports = {
 			warnings: true,
 			errors: true
 		},
-		hot: true
+		hot: true,
+		historyApiFallback: true
 	}
 }
