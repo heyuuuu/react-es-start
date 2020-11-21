@@ -1,8 +1,9 @@
 import React , { Component } from "react"
+import style from "./index.less"
 
 class Modal extends Component {
 	render(){
-		return <div>
+		return <div className={style.container}>
 			sdgfdh
 		</div>
 	}

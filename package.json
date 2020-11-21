@@ -4,8 +4,14 @@
   "description": "react+ts种子项目",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --config build/webpack.base.config.js",
-    "build": "webpack --config build/webpack.base.config.js"
+    "dev": "cross-env branch_env=dev mode=dev webpack-dev-server --config build/webpack.base.config.js",
+    "build": "cross-env branch_env=dev mode=pro webpack --config build/webpack.base.config.js",
+    "t-dev": "cross-env branch_env=test mode=dev webpack-dev-server --config build/webpack.base.config.js",
+    "t-build": "cross-env branch_env=test mode=pro webpack --config build/webpack.base.config.js",
+    "r-dev": "cross-env branch_env=rd mode=dev webpack-dev-server --config build/webpack.base.config.js",
+    "r-build": "cross-env branch_env=rd mode=pro webpack --config build/webpack.base.config.js",
+    "p-dev": "cross-env branch_env=pro mode=dev webpack-dev-server --config build/webpack.base.config.js",
+    "p-build": "cross-env branch_env=pro mode=pro webpack --config build/webpack.base.config.js"
   },
   "repository": {
     "type": "git",
@@ -21,14 +27,20 @@
   },
   "homepage": "https://github.com/heyuuuu/react-es-start#readme",
   "dependencies": {
+    "cross-env": "^7.0.2",
+    "css-loader": "^5.0.1",
     "html-webpack-plugin": "^4.5.0",
+    "less": "^3.12.2",
+    "less-loader": "^7.1.0",
+    "mini-css-extract-plugin": "^1.3.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
     "ts-loader": "^8.0.11",
     "typescript": "^4.1.2",
     "webpack": "^5.1.0",
-    "webpack-cli": "^3.3.12"
+    "webpack-cli": "^3.3.12",
+    "webpack-merge": "^5.4.0"
   },
   "devDependencies": {
     "@types/react": "^16.9.56",
