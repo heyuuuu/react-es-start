@@ -2,14 +2,14 @@ import { History } from "history"
 import Qs from "qs"
 
 let ReactHistory: History
-const ReactRoutes: Object = {}
+const ReactRoutes: object = {}
 
 // 注入路由配置
 export function NavigationInject(_ReactHistory: History,_Routes: Array<RouteItem>){
     ReactHistory = _ReactHistory
     _Routes.map(item => {
         if(ReactRoutes.hasOwnProperty(item.name)){
-            console.error("route-name有重复，请重命名")
+            console.error(`route-name(${item.name})有重复，请重命名`)
         }else{
             ReactRoutes[item.name] = item.path
         }
@@ -17,7 +17,7 @@ export function NavigationInject(_ReactHistory: History,_Routes: Array<RouteItem
 }
 
 // 生成路由
-function createPath(name: string,params = {}): string | void{
+function TransPathFromName(name: string,params = {}): string | void{
     const path = ReactRoutes[name]
     if(path){
         return path.replace(/\/:(\w+)/g,(fk,k) => params[k] ? '/' + params[k] : '' )
@@ -27,18 +27,33 @@ function createPath(name: string,params = {}): string | void{
 }
 
 // 生成完整路径
-function createFullPath(name: string,params = {},search = {}){
-    const fullpath = createPath(name,params)
+function CreateFullPath(name: string,params = {},search = {}): string | void{
+    const fullpath = TransPathFromName(name,params)
     if(fullpath){
-        return ReactHistory.createHref({pathname: fullpath,search: Qs.stringify(search)})
+        return window.location.origin + '/' + ReactHistory.createHref({pathname: fullpath,search: Qs.stringify(search)})
     }
 }
 
-function push(){
-    // ReactHistory.push(createFullPath('homes',{id: "xxx"}))
+function push(name: string,params = {},search: string | object = {}){
+    
+}
+
+function replace(name: string,params = {},search: string | object = {}){
+
+}
+
+function pushCall(name: string,params = {},search: string | object = {}){
+
+}
+
+function replaceCall(name: string,params = {},search: string | object = {}){
+
 }
 
 export default {
-    createFullPath,
-    push
+    push,
+    replace,
+    pushCall,
+    replaceCall,
+    CreateFullPath
 }
