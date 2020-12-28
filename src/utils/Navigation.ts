@@ -20,7 +20,7 @@ export function NavigationInject(_ReactHistory: History,_Routes: Array<RouteItem
 function TransPathFromName(name: string,params = {}): string | void{
     const path = ReactRoutes[name]
     if(path){
-        return path.replace(/\/:(\w+)/g,(fk,k) => params[k] ? '/' + params[k] : '' )
+        return path.replace(/\/:(\w+)/g,(_,k) => params[k] ? '/' + params[k] : '' )
     }else{
         console.error(`没有找到${name}路由`)
     }
@@ -34,20 +34,31 @@ function CreateFullPath(name: string,params = {},search = {}): string | void{
     }
 }
 
+// 转换携带参数
+function TransFromSearch(params: string | object = {}): string{
+    return typeof params === "string" ? params : Qs.stringify(params)
+}
+
 function push(name: string,params = {},search: string | object = {}){
-    
+    const fullpath = TransPathFromName(name,params)
+    if(fullpath){
+        ReactHistory.push({pathname: fullpath,search: TransFromSearch(search)})
+    }
 }
 
 function replace(name: string,params = {},search: string | object = {}){
-
+    const fullpath = TransPathFromName(name,params)
+    if(fullpath){
+        ReactHistory.replace({pathname: fullpath,search: TransFromSearch(search)})
+    }
 }
 
 function pushCall(name: string,params = {},search: string | object = {}){
-
+    return () => push(name,params,search)
 }
 
 function replaceCall(name: string,params = {},search: string | object = {}){
-
+    return () => replace(name,params,search)
 }
 
 export default {
