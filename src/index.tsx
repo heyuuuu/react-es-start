@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react'
-import { Route, Switch, Router } from "react-router-dom"
+import { Route, Switch, Router  } from "react-router-dom"
 import ReactDOM from 'react-dom'
 import { Loading } from "src/components"
 import Routes from "src/routes"

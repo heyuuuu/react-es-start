@@ -1,70 +1,76 @@
 import { History } from "history"
-import Qs from "qs"
-
-let ReactHistory: History
-const ReactRoutes: object = {}
-
-// 注入路由配置
-export function NavigationInject(_ReactHistory: History,_Routes: Array<RouteItem>){
-    ReactHistory = _ReactHistory
-    _Routes.map(item => {
-        if(ReactRoutes.hasOwnProperty(item.name)){
-            console.error(`route-name(${item.name})有重复，请重命名`)
+interface RouteItem {
+    name: string
+    path: string
+}
+class ReactRouterNav <RouteProps extends RouteItem = any> {
+    protected History: History
+    protected Routes: object
+    constructor(history: History | null,routes: Array<RouteProps>){
+        this.History = history
+        this.inject(routes)
+    }
+    private inject(routes: Array<RouteItem>){
+        routes.map(item => {
+            if(this.Routes.hasOwnProperty(item.name)){
+                console.error(`route-name(${item.name})有重复，请重命名`)
+            }else{
+                this.Routes[item.name] = item.path
+            }
+        })
+    }
+    // 对象转换为序列字符串
+    private stringify(search: string | object = {}): string{
+        let params = ""
+        if(typeof search === "string"){
+            params = search
         }else{
-            ReactRoutes[item.name] = item.path
+            params = Object.keys(search).map(k => `${k}=${search[k]}`).join("&")
         }
-    })
-}
-
-// 生成路由
-function TransPathFromName(name: string,params = {}): string | void{
-    const path = ReactRoutes[name]
-    if(path){
-        return path.replace(/\/:(\w+)/g,(_,k) => params[k] ? '/' + params[k] : '' )
-    }else{
-        console.error(`没有找到${name}路由`)
+        return params
+    }
+    // 获取pathname
+    public GetPathFromName(name: string,params = {}) : string | void{
+        const path = this.Routes[name]
+        if(path){
+            return path.replace(/\/:(\w+)/g,(_,k) => {
+                if(params.hasOwnProperty(k)){
+                    return '/' + params[k]
+                }else{
+                    console.error(`路由${name}缺少参数:${k}`)
+                    return ''
+                }
+            })
+        }else{
+            console.error(`没有找到${name}路由`)
+        }
+    }
+    // 获取完整路径
+    public GetHrefFromName(name: string,params = {},search: string | object = {}): string | void{
+        const fullpath = this.GetPathFromName(name,params)
+        if(fullpath){
+            const pathname = this.History.createHref({pathname: fullpath,search: this.stringify(search)})
+            return window.location.origin + ('/' + pathname).replace('//','')
+        }
+    }
+    public push(name: string,params = {},search: string | object = {}){
+        const fullpath = this.GetPathFromName(name,params)
+        if(fullpath){
+            this.History.push({pathname: fullpath,search: this.stringify(search)})
+        }
+    }
+    public replace(name: string,params = {},search: string | object = {}){
+        const fullpath = this.GetPathFromName(name,params)
+        if(fullpath){
+            this.History.replace({pathname: fullpath,search: this.stringify(search)})
+        }
+    }
+    public pushCall(name: string,params = {},search: string | object = {}){
+        return () => this.push(name,params,search)
+    }
+    public replaceCall(name: string,params = {},search: string | object = {}){
+        return () => this.replace(name,params,search)
     }
 }
 
-// 生成完整路径
-function CreateFullPath(name: string,params = {},search = {}): string | void{
-    const fullpath = TransPathFromName(name,params)
-    if(fullpath){
-        return window.location.origin + '/' + ReactHistory.createHref({pathname: fullpath,search: Qs.stringify(search)})
-    }
-}
-
-// 转换携带参数
-function TransFromSearch(params: string | object = {}): string{
-    return typeof params === "string" ? params : Qs.stringify(params)
-}
-
-function push(name: string,params = {},search: string | object = {}){
-    const fullpath = TransPathFromName(name,params)
-    if(fullpath){
-        ReactHistory.push({pathname: fullpath,search: TransFromSearch(search)})
-    }
-}
-
-function replace(name: string,params = {},search: string | object = {}){
-    const fullpath = TransPathFromName(name,params)
-    if(fullpath){
-        ReactHistory.replace({pathname: fullpath,search: TransFromSearch(search)})
-    }
-}
-
-function pushCall(name: string,params = {},search: string | object = {}){
-    return () => push(name,params,search)
-}
-
-function replaceCall(name: string,params = {},search: string | object = {}){
-    return () => replace(name,params,search)
-}
-
-export default {
-    push,
-    replace,
-    pushCall,
-    replaceCall,
-    CreateFullPath
-}
+export default ReactRouterNav
