@@ -2,17 +2,11 @@ import React, { Suspense } from 'react'
 import { Route, Switch, Router  } from "react-router-dom"
 import ReactDOM from 'react-dom'
 import { Loading } from "src/components"
-import Routes from "src/routes"
-import { createHashHistory } from "history"
-import { NavigationInject } from "src/utils/Navigation"
-
-const HistoryLib = createHashHistory()
-
-NavigationInject(HistoryLib, Routes)
+import { H , Routes} from "src/utils/Navigation"
 class App extends React.Component {
 	render() {
 		return <div>
-			<Router history={HistoryLib}>
+			<Router history={H}>
 				<Suspense fallback={<Loading />}>
 					<Switch>
 						{
