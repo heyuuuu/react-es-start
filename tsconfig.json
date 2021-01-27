@@ -6,7 +6,8 @@
 		"jsx": "react",
 		"lib": ["ES2015","ES2016","DOM"],
 		"moduleResolution": "node",
-		"allowSyntheticDefaultImports": true
+		"allowSyntheticDefaultImports": true,
+		"experimentalDecorators": true
 	},
 	"types": ["node"],
 	"exclude": [

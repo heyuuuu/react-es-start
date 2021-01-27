@@ -1,6 +1,5 @@
 import React , { Component } from "React"
 import { Route , RouteChildrenProps } from "react-router-dom"
-// import { Navigation } from "src/utils"
 
 // 单例模式
 function Singleton(){

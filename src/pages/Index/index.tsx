@@ -1,6 +1,15 @@
 import React, { createRef , RefObject} from "react"
-import { Navigation } from "src/utils"
+import { connect } from "react-redux"
+import Navigation from "react-router-nav"
 import style from "./index.less"
+
+function reduxify(mapStateToProps, mapDispatchToProps?, mergeProps?, options?) {
+    /* eslint-disable */
+    return target => (connect(mapStateToProps, mapDispatchToProps, mergeProps, options)(target) as any);
+}
+@reduxify(
+    (state) => ({ text: state.text })
+)
 export default class Index extends React.Component {
     protected showNode: RefObject<HTMLDivElement>
     constructor(props: Record<string,unknown>){
@@ -9,7 +18,8 @@ export default class Index extends React.Component {
         this.requestAnimationFrame = this.requestAnimationFrame.bind(this)
     }
     componentDidMount(){
-        console.log(Navigation.GetPathFromName('home',{id: 5}))
+        // console.log(Navigation)
+        console.log(Navigation.GetHrefFromName('home',{id:5}))
     }
     requestAnimationFrame(){
         const palceWidth = 300
@@ -28,6 +38,7 @@ export default class Index extends React.Component {
         timer = window.requestAnimationFrame(calculate)
     }
     render(){
+        console.log("index-render")
         return <div className={style.container}>
             <p>
                 <span onClick={Navigation.pushCall('home',{id: 4})}>home</span>
