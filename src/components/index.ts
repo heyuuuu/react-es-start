@@ -1,7 +1,7 @@
-import Modal from "./Modal"
 import Loading from "./Loading"
+import WrapMenu from "./WrapMenu"
 
 export {
-	Modal,
-	Loading
+	Loading,
+	WrapMenu
 }

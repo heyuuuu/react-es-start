@@ -10,11 +10,15 @@ module.exports = {
 		new webpack.HotModuleReplacementPlugin()
 	],
 	devServer: {
+		hot: true,
+		host: "0.0.0.0",
+		port: 10086,
+		// stats: "errors-only",
 		overlay: {
-			warnings: true,
+			// warnings: true,
 			errors: true
 		},
-		hot: true,
-		historyApiFallback: true
+		disableHostCheck: true,
+		historyApiFallback: true,
 	}
 }

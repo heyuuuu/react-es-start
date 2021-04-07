@@ -1,11 +1,22 @@
-import React , { Component } from "react"
-import Modal from "../Modal"
-import style from "./index.less"
+import React from 'react';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { makeStyles } from '@material-ui/core/styles';
 
-class Loading extends Component {
-	render(){
-		return <Modal show><div className={style.icon} /></Modal>
-	}
+const useStyles = makeStyles((theme) => ({
+	backdrop: {
+		zIndex: theme.zIndex.drawer + 1,
+		color: '#fff',
+	},
+}))
+
+export default function SimpleBackdrop() {
+	const classes = useStyles()
+	return (
+		<div>
+			<Backdrop className={classes.backdrop} open>
+				<CircularProgress color="inherit" />
+			</Backdrop>
+		</div>
+	);
 }
-
-export default Loading

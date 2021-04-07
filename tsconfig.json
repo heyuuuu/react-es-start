@@ -5,11 +5,22 @@
 		"module": "esnext",
 		"jsx": "react",
 		"lib": ["ES2015","ES2016","DOM"],
+		"sourceMap": false,
+		"skipLibCheck": true,
+		"esModuleInterop": true,
 		"moduleResolution": "node",
-		"allowSyntheticDefaultImports": true,
-		"experimentalDecorators": true
+		"experimentalDecorators": true,
+		"allowSyntheticDefaultImports": false,
 	},
 	"types": ["node"],
+	"include": [
+		"src/**/*.ts",
+		"src/**/*.tsx",
+	],
+	"files": [
+		"types/global.d.ts",
+		"types/module.d.ts"
+	],
 	"exclude": [
 		"node_modules"
 	]

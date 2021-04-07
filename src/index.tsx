@@ -2,13 +2,15 @@ import React, { Suspense } from 'react'
 import { Provider } from "react-redux"
 import { Route, Switch, Router  } from "react-router-dom"
 import ReactDOM from 'react-dom'
-import { createHashHistory } from "history"
+import { createBrowserHistory } from "history"
 import { InjectNavModel } from "react-router-nav"
-import { Loading } from "src/components"
+import { Loading , WrapMenu } from "src/components"
 import Routes from "./routes"
 import Store from "src/store"
+import "./common.less"
+import "antd/dist/antd.css"
 
-const RouteModel = createHashHistory()
+const RouteModel = createBrowserHistory()
 
 InjectNavModel(RouteModel,Routes)
 
@@ -16,13 +18,22 @@ class App extends React.Component {
 	render() {
 		return <Provider store={Store}>
 			<Router history={RouteModel}>
-				<Suspense fallback={<Loading />}>
-					<Switch>
-						{
-							Routes.map(item => <Route key={item.name} path={item.path} component={item.component} />)
-						}
-					</Switch>
-				</Suspense>
+				<div className="flex">
+					<WrapMenu />
+					<div className="flex-full">
+						<Suspense fallback={<Loading />}>
+							<Switch>
+								{
+									Routes.map(item => {
+										const {name,...props} = item
+										return <Route key={name} {...props}/>
+									})
+								}
+							</Switch>
+						</Suspense>
+					</div>
+				</div>
+
 			</Router>
 		</Provider>
 	}

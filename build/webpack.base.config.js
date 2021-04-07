@@ -36,13 +36,25 @@ module.exports = merge({
 				exclude: /node_modules/
 			},
 			{
+				test: /\.css$/,
+				use: [
+					MiniCssExtractPlugin.loader,
+					{
+						loader: "css-loader",
+						options: {
+							// modules: true
+						}
+					}
+				]
+			},
+			{
 				test: /\.less$/,
 				use: [
 					MiniCssExtractPlugin.loader,
 					{
 						loader: "css-loader",
 						options: {
-							modules: true
+							// modules: true
 						}
 					},
 					{
