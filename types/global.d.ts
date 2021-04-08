@@ -20,6 +20,8 @@ declare namespace DataSql {
     export interface Subject {
         id?: number
         name: string
+        git: string //git地址
+        domain: string // 正式环境域名
         producter?: number
     }
     export interface Task {

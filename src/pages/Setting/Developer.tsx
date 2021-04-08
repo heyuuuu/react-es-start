@@ -35,7 +35,7 @@ function Item(props: ItemProps){
         </div>
         <div className="setting-action">
             <Button type="primary" disabled={name == props.name} onClick={save}>保存</Button>
-            <Button type="primary" danger style={{marginLeft: "15px"}} onClick={del}>删除</Button>
+            <Button type="primary" danger className="m-l-large" onClick={del}>删除</Button>
         </div>
     </List.Item>
 }

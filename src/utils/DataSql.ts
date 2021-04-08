@@ -48,11 +48,8 @@ function InitTable(name: keyof Shine,keys: Array<string>,version?: number){
 function GetData<T extends keyof Shine>(name: T){
     return new Promise<Array<Shine[T]>>((resolve,reject) => {
         openData().then(res => {
-            console.log("res.target.result",res.target.result,name)
             const main = res.target.result.transaction([name]).objectStore(name).getAll()
-            main.onsuccess = event => {
-                resolve(main.result)
-            }
+            main.onsuccess = event => resolve(main.result)
         },reject)
     })
 }
