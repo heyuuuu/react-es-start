@@ -1,4 +1,4 @@
-function query(target: OBJ | Array<OBJ>,name: string,val: string | number | Array<string|number>): Array<OBJ>{
+function query(target: OBJ | Array<OBJ>, name: string, val: string | number | Array<string|number>): Array<OBJ> {
 	const factor = (val instanceof Array ? val : [val]).map(String)
 	const result = []
 	if(target instanceof Array){

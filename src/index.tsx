@@ -1,10 +1,10 @@
-import React, { Suspense } from 'react'
+import React, { Suspense } from "react"
 import { Provider } from "react-redux"
 import { Route, Switch, Router  } from "react-router-dom"
-import ReactDOM from 'react-dom'
+import ReactDOM from "react-dom"
 import { createBrowserHistory } from "history"
 import { InjectNavModel } from "react-router-nav"
-import { Loading , WrapMenu } from "src/components"
+import { Loading, WrapMenu } from "src/components"
 import Routes from "./routes"
 import Store from "src/store"
 import "./common.less"
@@ -12,9 +12,9 @@ import "antd/dist/antd.css"
 
 const RouteModel = createBrowserHistory()
 
-InjectNavModel(RouteModel,Routes)
+InjectNavModel(RouteModel, Routes)
 
-class App extends React.Component {
+class App extends React.Component{
 	render() {
 		return <Provider store={Store}>
 			<Router history={RouteModel}>
@@ -25,7 +25,7 @@ class App extends React.Component {
 							<Switch>
 								{
 									Routes.map(item => {
-										const {name,...props} = item
+										const {name, ...props} = item
 										return <Route key={name} {...props}/>
 									})
 								}

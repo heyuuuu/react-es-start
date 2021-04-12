@@ -21,12 +21,16 @@ module.exports = {
 	// 	"sourceType": "module"
 	// },
 	rules: {
-		"no-irregular-whitespace": 0, // 不规则的空格
-		"no-useless-escape": "error", // 禁止不必要的转义使用
+		"no-irregular-whitespace": 0,
+		"no-useless-escape": "error",
 		"no-var": "error",
 		"@typescript-eslint/explicit-module-boundary-types": "off",
 		"indent": ["error","tab"],
-		// "no-multiple-empty-lines": 0,
-		// "react/prop-types": [2, { ignore: ['children'] }]
+		"quotes": ["error", "double"],
+		"space-infix-ops": ["error"],
+		"space-before-blocks": ["error",{"functions": "always","classes": "never"}],
+		"space-before-function-paren": ["error","never"],
+		"key-spacing": ["error", { "beforeColon": false, "afterColon": true }],
+		"comma-spacing": ["error", { "before": false, "after": true }]
 	}
 }

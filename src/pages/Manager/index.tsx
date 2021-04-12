@@ -1,17 +1,17 @@
 import React from "react"
-import { Table , Button , Modal } from "antd"
-import { DataSql , Tools } from "src/utils"
-import { Task , Action , WrapSwitch } from "./components"
+import { Table, Button, Modal } from "antd"
+import { DataSql, Tools } from "src/utils"
+import { Task, Action, WrapSwitch } from "./components"
 import Moment from "moment"
 import "./index.less"
 
 const { Column } = Table
 
-class Manager extends React.Component<OBJ,any>{
+class Manager extends React.Component<OBJ, any>{
 	private child: any
 	private GetSubject: Promise<Array<DataSql.Subject>>
 	private GetDeveloper: Promise<Array<DataSql.Developer>>
-	constructor(props: OBJ){
+	constructor(props: OBJ) {
 		super(props)
 		this.state = {
 			list: []
@@ -22,47 +22,47 @@ class Manager extends React.Component<OBJ,any>{
 		this.GetSubject = DataSql.GetData(DataSql.DB_TABLE_SUBJECT)
 		this.GetDeveloper = DataSql.GetData(DataSql.DB_TABLE_DEVELOPER)
 	}
-	task(id?: number){
+	task(id?: number) {
 		this.child.visible(id)
 	}
-	updata(){
+	updata() {
 		this.GetList()
 	}
-	delTask(id){
+	delTask(id) {
 		Modal.confirm({
 			title: "警告",
 			content: "是否要删除该任务?",
-			okText: '确认',
-			cancelText: '取消',
-			onOk:() => {
-				DataSql.Delete("task",id).then(() => this.GetList())
+			okText: "确认",
+			cancelText: "取消",
+			onOk: () => {
+				DataSql.Delete("task", id).then(() => this.GetList())
 			}
 		})
 	}
-	GetList(){
+	GetList() {
 		DataSql.GetData("task").then(res => {
 			this.GetSubject.then(subject => {
 				res.map((item: any) => {
 					item.key = item.id
-					item.subject = Tools.query(subject,'id',item.subject)[0]?.name
+					item.subject = Tools.query(subject, "id", item.subject)[0]?.name
 				})
 				return res
 			}).then(res => {
 				this.GetDeveloper.then(developer => {
 					res.map((item: any) => {
-						item.developer = Tools.query(developer,'id',item.developer).map(item => item.name).join('、')
-						item.testTime = item.testTime ? Moment(item.testTime).format('YYYY-MM-DD') : ""
-						item.formalTime = item.formalTime ? Moment(item.formalTime).format('YYYY-MM-DD') : ""
+						item.developer = Tools.query(developer, "id", item.developer).map(item => item.name).join("、")
+						item.testTime = item.testTime ? Moment(item.testTime).format("YYYY-MM-DD") : ""
+						item.formalTime = item.formalTime ? Moment(item.formalTime).format("YYYY-MM-DD") : ""
 					})
 					this.setState({list: res})
 				})
 			})
 		})
 	}
-	componentDidMount(){
+	componentDidMount() {
 		this.GetList()
 	}
-	render(){
+	render() {
 		const { list } = this.state
 		return <div className="manager-container">
 			<div className="manager-headbar">
@@ -80,8 +80,7 @@ class Manager extends React.Component<OBJ,any>{
 					title="操作"
 					dataIndex=""
 					key="action"
-					render={(text, record: any) => <Action id={record.id} onEidt={this.task} onDel={this.delTask} />}
-					/>
+					render={(text, record: any) => <Action id={record.id} onEidt={this.task} onDel={this.delTask} />}/>
 			</Table>
 			<Task onRef={methods => this.child = methods} onComplete={this.updata} />
 		</div>

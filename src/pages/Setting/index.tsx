@@ -1,6 +1,6 @@
-import React from 'react'
-import { Menu } from 'antd'
-import Developer from './Developer'
+import React from "react"
+import { Menu } from "antd"
+import Developer from "./Developer"
 import Producter from "./Producter"
 import Subject from "./Subject"
 import "./index.less"
@@ -9,7 +9,7 @@ interface SettingState {
 	current: "developer" | "producter" | "subject"
 }
 
-export default class Setting extends React.Component {
+export default class Setting extends React.Component{
 	state: SettingState
 	constructor(props) {
 		super(props)
@@ -18,10 +18,10 @@ export default class Setting extends React.Component {
 		}
 		this.tabMenu = this.tabMenu.bind(this)
 	}
-	tabMenu(ev){
-		this.setState({ current: ev.key })
+	tabMenu(ev) {
+		this.setState({current: ev.key})
 	}
-	render(){
+	render() {
 		const { current } = this.state
 		return <div className="setting-container">
 			<Menu className="setting-headbar" selectedKeys={[current]} mode="horizontal" onClick={this.tabMenu}>

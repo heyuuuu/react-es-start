@@ -1,9 +1,9 @@
-import React , { useState , useEffect } from 'react'
-import { Form, Input, Modal , Select , DatePicker } from 'antd'
+import React, { useState, useEffect } from "react"
+import { Form, Input, Modal, Select, DatePicker } from "antd"
 import { DataSql } from "src/utils"
-import moment from 'moment'
-import 'moment/locale/zh-cn'
-import locale from 'antd/lib/date-picker/locale/zh_CN'
+import moment from "moment"
+import "moment/locale/zh-cn"
+import locale from "antd/lib/date-picker/locale/zh_CN"
 const { Option } = Select
 
 interface IProps {
@@ -11,32 +11,32 @@ interface IProps {
 	onComplete: FUNC
 }
 
-function Task(props: IProps){
+function Task(props: IProps) {
 	const defaultState: DataSql.Task = {
 		title: "",
 		subject: null,
 		developer: [],
 		status: false,
-		testTime: '',
-		describe: '',
+		testTime: "",
+		describe: "",
 		producter: 0,
-		formalTime: '',
-		comment: ''
+		formalTime: "",
+		comment: ""
 	}
-	const [visible,setVisible] = useState(false)
-	const [developers,setDevelopers] = useState([])
-	const [subjects,setSubjects] = useState([])
+	const [visible, setVisible] = useState(false)
+	const [developers, setDevelopers] = useState([])
+	const [subjects, setSubjects] = useState([])
 	const [form] = Form.useForm()
-	const [state,setState] = useState<OBJ>(defaultState)
-	function wrapSetState(states: OBJ){
-		const data = {...state,...states}
+	const [state, setState] = useState<OBJ>(defaultState)
+	function wrapSetState(states: OBJ) {
+		const data = {...state, ...states}
 		setState(data)
 		return data
 	}
 	props.onRef({
 		visible: (id?: number) => {
 			if(id){
-				DataSql.Query("task",id).then((res: OBJ) => {
+				DataSql.Query("task", id).then((res: OBJ) => {
 					form.setFieldsValue(wrapSetState(res))
 					setVisible(true)
 				})
@@ -48,12 +48,12 @@ function Task(props: IProps){
 			
 		}
 	})
-	function cancel(){
+	function cancel() {
 		form.resetFields()
 		setVisible(false)
 	}
-	function complete(data,id) {
-		const main = id ?  DataSql.Update("task",{id,...data}) : DataSql.Write("task",data)
+	function complete(data, id) {
+		const main = id ?  DataSql.Update("task", {id, ...data}) : DataSql.Write("task", data)
 		main.then(() => {
 			setVisible(false)
 			props.onComplete(data.id)
@@ -61,17 +61,17 @@ function Task(props: IProps){
 	}
 	function finish() {
 		const formData = form.getFieldsValue()
-		const { subject , title , describe , developer , comment } = formData
-		const { producter , testTime , formalTime , id } = state
-		complete({subject , describe , developer , comment,producter , title , testTime , formalTime},id)
+		const { subject, title, describe, developer, comment } = formData
+		const { producter, testTime, formalTime, id } = state
+		complete({subject, describe, developer, comment, producter, title, testTime, formalTime}, id)
 	}
-	function chooseDate(name,date) {
+	function chooseDate(name, date) {
 		wrapSetState({[name]: date ? date.valueOf() : date})
 	}
 	useEffect(() => {
 		DataSql.GetData(DataSql.DB_TABLE_SUBJECT).then(res => setSubjects(res))
 		DataSql.GetData(DataSql.DB_TABLE_DEVELOPER).then(res => setDevelopers(res))
-	},[])
+	}, [])
 	return <>
 		<Modal title="新增任务" visible={visible} okText="保存" cancelText="取消" onCancel={cancel} onOk={finish}>
 			<div key={state.id}>
@@ -110,10 +110,10 @@ function Task(props: IProps){
 						</Select>
 					</Form.Item>
 					<Form.Item label="提测时间">
-						<DatePicker defaultValue={state.testTime ? moment(state.testTime) : null} onChange={date => chooseDate('testTime',date)} locale={locale} />
+						<DatePicker defaultValue={state.testTime ? moment(state.testTime) : null} onChange={date => chooseDate("testTime", date)} locale={locale} />
 					</Form.Item>
 					<Form.Item label="发版时间">
-						<DatePicker defaultValue={state.formalTime ? moment(state.formalTime) : null} onChange={date => chooseDate('formalTime',date)} locale={locale} />
+						<DatePicker defaultValue={state.formalTime ? moment(state.formalTime) : null} onChange={date => chooseDate("formalTime", date)} locale={locale} />
 					</Form.Item>
 					<Form.Item name="comment" label="备注">
 						<Input.TextArea />

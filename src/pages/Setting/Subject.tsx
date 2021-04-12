@@ -1,6 +1,6 @@
-import React, { useState , createRef , useMemo } from 'react'
-import { DataSql , Hooks } from "src/utils"
-import { List , Input , Button , Modal } from 'antd'
+import React, { useState, createRef, useMemo } from "react"
+import { DataSql, Hooks } from "src/utils"
+import { List, Input, Button, Modal } from "antd"
 
 interface SubjectState {
 	list: Array<DataSql.Subject>
@@ -10,25 +10,25 @@ interface ItemProps extends DataSql.Subject {
 	callback: FUNC
 }
 
-function Item(props: ItemProps){
-	const FormInstance = useMemo(() => Hooks.useForm<ItemProps>(props),[props])
-	const [pass,setPass] = useState(true)
-	FormInstance.onChange((data,initData) => {
+function Item(props: ItemProps) {
+	const FormInstance = useMemo(() => Hooks.useForm<ItemProps>(props), [props])
+	const [pass, setPass] = useState(true)
+	FormInstance.onChange((data, initData) => {
 		const pass = data.name == initData.name && data.domain == initData.domain && data.git == initData.git
 		setPass(pass)
 	})
-	function save(){
+	function save() {
 		FormInstance.files.id = props.id
-		DataSql.Update(DataSql.DB_TABLE_SUBJECT,FormInstance.files).then(props.callback)
+		DataSql.Update(DataSql.DB_TABLE_SUBJECT, FormInstance.files).then(props.callback)
 	}
-	function del(){
+	function del() {
 		Modal.confirm({
 			title: "警告",
 			content: `确定要删除"${props.name}"`,
 			cancelText: "取消",
 			okText: "删除",
 			onOk: () => {
-				DataSql.Delete(DataSql.DB_TABLE_SUBJECT,props.id).then(props.callback)
+				DataSql.Delete(DataSql.DB_TABLE_SUBJECT, props.id).then(props.callback)
 			}
 		})
 	}
@@ -51,11 +51,11 @@ function Item(props: ItemProps){
 
 const WrapItem = React.memo(Item)
 
-export default class Subject extends React.Component {
+export default class Subject extends React.Component{
 	state: SubjectState
 	additionRef = createRef<Input>()
 	additionForm = Hooks.useForm({name: ""})
-	constructor(props){
+	constructor(props) {
 		super(props)
 		this.state = {
 			list: []
@@ -63,22 +63,22 @@ export default class Subject extends React.Component {
 		this.GetList = this.GetList.bind(this)
 		this.addition = this.addition.bind(this)
 	}
-	GetList(){
+	GetList() {
 		DataSql.GetData(DataSql.DB_TABLE_SUBJECT).then(console.log)
 		return DataSql.GetData(DataSql.DB_TABLE_SUBJECT).then(res => this.setState({list: res}))
 	}
-	addition(){
-		const { name , git , domain } = this.additionForm.files
+	addition() {
+		const { name, git, domain} = this.additionForm.files
 		DataSql
-			.Write(DataSql.DB_TABLE_SUBJECT,{name,git,domain})
+			.Write(DataSql.DB_TABLE_SUBJECT, {name, git, domain})
 			.then(this.GetList)
 			.then(() =>  this.additionForm.reset())
 	}
-	componentDidMount(){
+	componentDidMount() {
 		this.GetList()
 		// this.additionForm.initDefauleValue({})
 	}
-	render(){
+	render() {
 		const { list } = this.state
 		return <>
 			<List>

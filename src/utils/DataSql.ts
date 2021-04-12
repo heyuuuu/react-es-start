@@ -11,31 +11,31 @@ const DB_TABLE_SUBJECT: keyof Shine = "subject"
 const DB_TABLE_DEVELOPER: keyof Shine = "developer"
 const DB_TABLE_PRODUCTER: keyof Shine = "producter"
 
-function openData(onupgradeneeded?: (target: IDBOpenDBRequest,event: IDBVersionChangeEvent) => void,version?: number){
-	return new Promise<{target: IDBOpenDBRequest,event: any}>((resolve,reject)=>{
-		const request = window.indexedDB.open(DB_NAME,version)
+function openData(onupgradeneeded?: (target: IDBOpenDBRequest, event: IDBVersionChangeEvent) => void, version?: number) {
+	return new Promise<{target: IDBOpenDBRequest, event: any}>((resolve, reject)=>{
+		const request = window.indexedDB.open(DB_NAME, version)
 		request.onsuccess = event => {
-			resolve({target: request,event})
+			resolve({target: request, event})
 		}
 		request.onerror = event => {
 			reject(event)
 		}
 		request.onupgradeneeded = event => {
-			onupgradeneeded instanceof Function && onupgradeneeded(request,event)
+			onupgradeneeded instanceof Function && onupgradeneeded(request, event)
 		}
 	})
 }
 
-function InitTable(name: keyof Shine,keys: Array<string>,version?: number){
+function InitTable(name: keyof Shine, keys: Array<string>, version?: number) {
 	openData(target => {
 		const table = target.result
 		if(table.objectStoreNames.contains(name) === false){
 			console.log("InitTable")
-			const task = table.createObjectStore(name,{autoIncrement: true,keyPath: "id"})
-			keys.map(name => task.createIndex(name,name))
+			const task = table.createObjectStore(name, {autoIncrement: true, keyPath: "id"})
+			keys.map(name => task.createIndex(name, name))
 		}
 		// table.transaction(name,"readwrite").objectStore(name).createIndex(name,name)
-	},version).then(console.log)
+	}, version).then(console.log)
 }
 
 
@@ -45,20 +45,20 @@ function InitTable(name: keyof Shine,keys: Array<string>,version?: number){
 // InitTable("task",["subject","describe","producter","testTime","formalTime","developer","status","comment"],4)
 
 // 获取数据
-function GetData<T extends keyof Shine>(name: T){
-	return new Promise<Array<Shine[T]>>((resolve,reject) => {
+function GetData<T extends keyof Shine>(name: T) {
+	return new Promise<Array<Shine[T]>>((resolve, reject) => {
 		openData().then(res => {
 			const main = res.target.result.transaction([name]).objectStore(name).getAll()
 			main.onsuccess = event => resolve(main.result)
-		},reject)
+		}, reject)
 	})
 }
 
 // 写入数据
-function Write<T extends keyof Shine>(name: T,data: Shine[T]){
-	return new Promise((resolve,reject) => {
+function Write<T extends keyof Shine>(name: T, data: Shine[T]) {
+	return new Promise((resolve, reject) => {
 		openData().then(res => {
-			const main = res.target.result.transaction(name,"readwrite").objectStore(name).add(data)
+			const main = res.target.result.transaction(name, "readwrite").objectStore(name).add(data)
 			main.onsuccess = resolve
 			main.onerror = reject
 		}).catch(reject)
@@ -66,10 +66,10 @@ function Write<T extends keyof Shine>(name: T,data: Shine[T]){
 }
 
 // 更新数据
-function Update<T extends keyof Shine>(name: T,data: Shine[T]){
-	return new Promise((resolve,reject) => {
+function Update<T extends keyof Shine>(name: T, data: Shine[T]) {
+	return new Promise((resolve, reject) => {
 		openData().then(res => {
-			const main = res.target.result.transaction([name],"readwrite").objectStore(name).put(data)
+			const main = res.target.result.transaction([name], "readwrite").objectStore(name).put(data)
 			main.onsuccess = resolve
 			main.onerror = event => reject
 		}).catch(reject)
@@ -77,24 +77,24 @@ function Update<T extends keyof Shine>(name: T,data: Shine[T]){
 }
 
 // 删除数据
-function Delete(name: keyof Shine,id: number){
-	return new Promise((resolve,reject) => {
+function Delete(name: keyof Shine, id: number) {
+	return new Promise((resolve, reject) => {
 		openData().then(res => {
-			const main = res.target.result.transaction([name],'readwrite').objectStore(name).delete(id)
+			const main = res.target.result.transaction([name], "readwrite").objectStore(name).delete(id)
 			main.onsuccess = resolve
 			main.onerror = reject
-		},reject).catch(reject)
+		}, reject).catch(reject)
 	})
 }
 
 // 查询数据
-function Query(name: keyof Shine,id: number){
-	return new Promise((resolve,reject) => {
+function Query(name: keyof Shine, id: number) {
+	return new Promise((resolve, reject) => {
 		openData().then(res => {
-			const main = res.target.result.transaction([name],'readwrite').objectStore(name).get(id)
+			const main = res.target.result.transaction([name], "readwrite").objectStore(name).get(id)
 			main.onsuccess = res => resolve(main.result)
 			main.onerror = reject
-		},reject).catch(reject)
+		}, reject).catch(reject)
 	})
 }
 

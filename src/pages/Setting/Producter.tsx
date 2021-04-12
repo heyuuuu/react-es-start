@@ -1,6 +1,6 @@
-import React, { useState , createRef } from 'react'
+import React, { useState, createRef } from "react"
 import { DataSql } from "src/utils"
-import { List , Input , Button , Modal } from 'antd'
+import { List, Input, Button, Modal } from "antd"
 
 interface ProducterState {
 	list: Array<DataSql.Developer>
@@ -10,22 +10,22 @@ interface ItemProps extends DataSql.Producter {
 	callback: FUNC
 }
 
-function Item(props: ItemProps){
-	const [name,setName] = useState(() => props.name)
-	function onChange(event){
+function Item(props: ItemProps) {
+	const [name, setName] = useState(() => props.name)
+	function onChange(event) {
 		setName(event.target.value)
 	}
-	function save(){
-		DataSql.Update(DataSql.DB_TABLE_PRODUCTER,{id: props.id,name}).then(props.callback)
+	function save() {
+		DataSql.Update(DataSql.DB_TABLE_PRODUCTER, {id: props.id, name}).then(props.callback)
 	}
-	function del(){
+	function del() {
 		Modal.confirm({
 			title: "警告",
 			content: `确定要删除"${name}"`,
 			cancelText: "取消",
 			okText: "删除",
 			onOk: () => {
-				DataSql.Delete(DataSql.DB_TABLE_PRODUCTER,props.id).then(props.callback)
+				DataSql.Delete(DataSql.DB_TABLE_PRODUCTER, props.id).then(props.callback)
 			}
 		})
 	}
@@ -40,10 +40,10 @@ function Item(props: ItemProps){
 	</List.Item>
 }
 
-export default class Producter extends React.Component {
+export default class Producter extends React.Component{
 	state: ProducterState
 	additionRef = createRef<Input>()
-	constructor(props){
+	constructor(props) {
 		super(props)
 		this.state = {
 			list: []
@@ -51,20 +51,20 @@ export default class Producter extends React.Component {
 		this.GetList = this.GetList.bind(this)
 		this.addition = this.addition.bind(this)
 	}
-	GetList(){
+	GetList() {
 		return DataSql.GetData(DataSql.DB_TABLE_PRODUCTER).then(res => this.setState({list: res}))
 	}
-	addition(){
+	addition() {
 		const name = this.additionRef.current.input.value
 		DataSql
-			.Write(DataSql.DB_TABLE_PRODUCTER,{name})
+			.Write(DataSql.DB_TABLE_PRODUCTER, {name})
 			.then(this.GetList)
 			.then(() =>  this.additionRef.current.setValue(""))
 	}
-	componentDidMount(){
+	componentDidMount() {
 		this.GetList()
 	}
-	render(){
+	render() {
 		const { list } = this.state
 		return <>
 			<List>
