@@ -33,7 +33,6 @@ class App extends React.Component {
 						</Suspense>
 					</div>
 				</div>
-
 			</Router>
 		</Provider>
 	}
