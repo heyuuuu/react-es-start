@@ -25,7 +25,7 @@ module.exports = {
 		"no-useless-escape": "error",
 		"no-var": "error",
 		"@typescript-eslint/explicit-module-boundary-types": "off",
-		"indent": ["error","tab"],
+		"indent": ["error","tab",{ "SwitchCase": 1 }],
 		"quotes": ["error", "double"],
 		"space-infix-ops": ["error"],
 		"space-before-blocks": ["error",{"functions": "always","classes": "never"}],

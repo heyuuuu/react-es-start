@@ -1,16 +1,7 @@
-import { combineReducers, createStore } from "redux"
+import { createStore, combineReducers } from "redux"
 
-const reducer = combineReducers({
-	userInfo: function(state = {}, action: OBJ ) {
-		console.log("userInfo", state, action)
-		return state
-	},
-	token: function(state = {}, action: OBJ ) {
-		console.log("token", state, action)
-		return state
-	}
-})
+import user from "./User"
 
-const store = createStore(reducer)
+const reducers = combineReducers({user})
 
-export default store
+export default createStore(reducers)

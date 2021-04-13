@@ -1,7 +1,6 @@
-import React from "react"
 import { Input } from "antd"
 
-function useForm<T = any>(initDefauleValue = {}) {
+function useForm<T = OBJ>(initDefauleValue = {}) {
 	const formData = {}
 	const elAction = {}
 	let callback: FUNC

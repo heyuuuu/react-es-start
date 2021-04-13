@@ -5,7 +5,7 @@ declare const BRANCH_CONFIG: {
 	tuDomain: string
 }
 
-declare type OBJ = Record<string,any>
+declare type OBJ = Record<string, any>
 declare type FUNC = (...arg: any[]) => unknown
 
 declare namespace DataSql {
@@ -35,6 +35,7 @@ declare namespace DataSql {
 		status: boolean // 状态
 		comment: string // 备注
 	}
+	export type Shine = "task" | "subject" | "developer" | "producter"
 }
 
 // 路由配置

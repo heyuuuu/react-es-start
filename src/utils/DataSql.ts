@@ -57,33 +57,39 @@ function GetData<T extends keyof Shine>(name: T) {
 // 写入数据
 function Write<T extends keyof Shine>(name: T, data: Shine[T]) {
 	return new Promise((resolve, reject) => {
-		openData().then(res => {
-			const main = res.target.result.transaction(name, "readwrite").objectStore(name).add(data)
-			main.onsuccess = resolve
-			main.onerror = reject
-		}).catch(reject)
+		openData()
+			.then(res => {
+				const main = res.target.result.transaction(name, "readwrite").objectStore(name).add(data)
+				main.onsuccess = resolve
+				main.onerror = reject
+			})
+			.catch(reject)
 	})
 }
 
 // 更新数据
 function Update<T extends keyof Shine>(name: T, data: Shine[T]) {
 	return new Promise((resolve, reject) => {
-		openData().then(res => {
-			const main = res.target.result.transaction([name], "readwrite").objectStore(name).put(data)
-			main.onsuccess = resolve
-			main.onerror = event => reject
-		}).catch(reject)
+		openData()
+			.then(res => {
+				const main = res.target.result.transaction([name], "readwrite").objectStore(name).put(data)
+				main.onsuccess = resolve
+				main.onerror = reject
+			})
+			.catch(reject)
 	})
 }
 
 // 删除数据
 function Delete(name: keyof Shine, id: number) {
 	return new Promise((resolve, reject) => {
-		openData().then(res => {
-			const main = res.target.result.transaction([name], "readwrite").objectStore(name).delete(id)
-			main.onsuccess = resolve
-			main.onerror = reject
-		}, reject).catch(reject)
+		openData()
+			.then(res => {
+				const main = res.target.result.transaction([name], "readwrite").objectStore(name).delete(id)
+				main.onsuccess = resolve
+				main.onerror = reject
+			}, reject)
+			.catch(reject)
 	})
 }
 
