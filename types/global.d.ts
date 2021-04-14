@@ -37,12 +37,3 @@ declare namespace DataSql {
 	}
 	export type Shine = "task" | "subject" | "developer" | "producter"
 }
-
-// 路由配置
-declare interface RouteItem {
-	name: string
-	path: string
-	exact?: boolean
-	strict?: boolean
-	component: React.LazyExoticComponent<React.ComponentClass>
-}

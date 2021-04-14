@@ -11,9 +11,8 @@
 		"moduleResolution": "node",
 		"experimentalDecorators": true,
 		"allowSyntheticDefaultImports": true,
-		"strictPropertyInitialization": false,
+		"strictPropertyInitialization": false
 	},
-	"types": ["node","antd"],
 	"include": [
 		"src/**/*.ts",
 		"src/**/*.tsx",
@@ -23,6 +22,6 @@
 		"types/module.d.ts"
 	],
 	"exclude": [
-		"node_modules"
+		"node_moduless"
 	]
 }
