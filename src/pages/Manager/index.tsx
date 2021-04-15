@@ -65,7 +65,7 @@ class Manager extends React.Component<OBJ, any>{
 	render() {
 		const { list } = this.state
 		return <div className="manager-container">
-			<div className="manager-headbar">
+			<div className="manager-headbar p-l-small">
 				<Button type="primary" onClick={() => this.task()}>新增任务</Button>
 			</div>
 			<Table dataSource={list} pagination={false}>

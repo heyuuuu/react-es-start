@@ -5,7 +5,7 @@ import ReactDOM from "react-dom"
 import { createBrowserHistory } from "history"
 import { InjectNavModel } from "react-router-nav"
 import { Loading } from "src/components"
-import R from "./routes"
+import RouteConfig from "./routes"
 import Store from "src/store"
 import "./common.less"
 import "antd/dist/antd.css"
@@ -15,14 +15,17 @@ const RouteModel = createBrowserHistory()
 InjectNavModel(RouteModel)
 
 class App extends React.Component{
+	componentDidMount() {
+		console.log(RouteModel.action, RouteModel.location)
+	}
 	render() {
 		return <Provider store={Store}>
 			<Router history={RouteModel}>
 				<Suspense fallback={<Loading />}>
 					<Switch>
-						<Route {...R.Login} />
-						<Route {...R.Error} />
-						<Route {...R.Home} exact />
+						<Route {...RouteConfig.Login} />
+						<Route {...RouteConfig.Error} />
+						<Route {...RouteConfig.Home} exact />
 						<Redirect from="*" to="/error" />
 					</Switch>
 				</Suspense>

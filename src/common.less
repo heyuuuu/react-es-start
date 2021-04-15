@@ -20,10 +20,17 @@ html,body{
     flex: 1;
 }
 
+.createSpace(@name,@val){
+    .m-t-@{name}{margin-top: @val}
+    .m-l-@{name}{margin-left: @val}
+    .m-r-@{name}{margin-right: @val}
+    .m-b-@{name}{margin-bottom: @val}
+    .p-t-@{name}{padding-top: @val}
+    .p-l-@{name}{padding-left: @val}
+    .p-r-@{name}{padding-right: @val}
+    .p-b-@{name}{padding-bottom: @val}
+}
 
-.m-l-small{margin-left: 5px}
-.m-l-normal{margin-left: 10px}
-.m-l-large{margin-left: 15px}
-.m-r-small{margin-right: 5px}
-.m-r-normal{margin-right: 10px}
-.m-r-large{margin-right: 15px}
+.createSpace(small,5px);
+.createSpace(normal,10px);
+.createSpace(large,15px);

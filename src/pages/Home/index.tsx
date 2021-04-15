@@ -1,17 +1,17 @@
 
 import React from "react"
 import { Route, Switch } from "react-router-dom"
-import { WrapMenu } from "src/components"
-import R from "src/routes"
+import Menu from "./components/Menu"
+import RouteConfig from "src/routes"
 
 export default class Home extends React.Component{
 	render() {
 		return <div className="flex">
-			<WrapMenu />
+			<Menu />
 			<div className="flex-full">
 				<Switch>
 					{
-						R.List.map(item => {
+						RouteConfig.List.map(item => {
 							const {name, ...props} = item
 							return <Route key={name} {...props}/>
 						})

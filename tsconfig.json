@@ -18,10 +18,9 @@
 		"src/**/*.tsx",
 	],
 	"files": [
-		"types/global.d.ts",
-		"types/module.d.ts"
+		"types/global.d.ts"
 	],
 	"exclude": [
-		"node_moduless"
+		"node_modules"
 	]
 }

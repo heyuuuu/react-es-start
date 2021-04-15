@@ -18,7 +18,7 @@ class WrapMenu extends React.Component<RouteComponentProps, WrapMenuState>{
 		}
 	}
 	tab(ev) {
-		Router.push(ev.key)
+		Router.replace(ev.key)
 	}
 	render() {
 		const { defauleKey } = this.state

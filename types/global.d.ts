@@ -1,3 +1,6 @@
+/// <reference path="types.d.ts" />
+/// <reference path="module.d.ts" />
+
 // 环境变量
 declare const BRANCH_ENV: "dev" | "pro"
 // 环境配置
