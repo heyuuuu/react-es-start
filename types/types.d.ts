@@ -6,7 +6,5 @@ declare module "TYPES" {
 		path: string
 	}
 
-	export interface RouteProp extends RouteProps {
-		
-	}
+	export type RouteProp = RouteProps
 }

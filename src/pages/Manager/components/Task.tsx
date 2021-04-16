@@ -17,10 +17,10 @@ function Task(props: IProps) {
 		subject: null,
 		developer: [],
 		status: false,
-		testTime: "",
+		testTime: null,
 		describe: "",
 		producter: 0,
-		formalTime: "",
+		formalTime: null,
 		comment: ""
 	}
 	const [visible, setVisible] = useState(false)
@@ -34,7 +34,7 @@ function Task(props: IProps) {
 		return data
 	}
 	props.onRef({
-		visible: (id?: number) => {
+		visible: (id?: number, status = false) => {
 			if(id){
 				DataSql.Query("task", id).then((res: OBJ) => {
 					form.setFieldsValue(wrapSetState(res))
@@ -45,7 +45,7 @@ function Task(props: IProps) {
 				form.setFieldsValue(defaultState)
 				setVisible(true)
 			}
-			
+			wrapSetState({status})
 		}
 	})
 	function cancel() {
@@ -62,8 +62,8 @@ function Task(props: IProps) {
 	function finish() {
 		const formData = form.getFieldsValue()
 		const { subject, title, describe, developer, comment } = formData
-		const { producter, testTime, formalTime, id } = state
-		complete({subject, describe, developer, comment, producter, title, testTime, formalTime}, id)
+		const { producter, testTime, formalTime, id, status } = state
+		complete({subject, describe, developer, comment, producter, title, testTime, formalTime, status}, id)
 	}
 	function chooseDate(name, date) {
 		wrapSetState({[name]: date ? date.valueOf() : date})

@@ -44,15 +44,15 @@ class Manager extends React.Component<OBJ, any>{
 			this.GetSubject.then(subject => {
 				res.map((item: any) => {
 					item.key = item.id
-					item.subject = Tools.query(subject, "id", item.subject)[0]?.name
+					item.subjectText = Tools.query(subject, "id", item.subject)[0]?.name
 				})
 				return res
 			}).then(res => {
 				this.GetDeveloper.then(developer => {
 					res.map((item: any) => {
-						item.developer = Tools.query(developer, "id", item.developer).map(item => item.name).join("、")
-						item.testTime = item.testTime ? Moment(item.testTime).format("YYYY-MM-DD") : ""
-						item.formalTime = item.formalTime ? Moment(item.formalTime).format("YYYY-MM-DD") : ""
+						item.developerText = Tools.query(developer, "id", item.developer).map(item => item.name).join("、")
+						item.testTimeText = item.testTime ? Moment(item.testTime).format("YYYY-MM-DD") : ""
+						item.formalTimeText = item.formalTime ? Moment(item.formalTime).format("YYYY-MM-DD") : ""
 					})
 					this.setState({list: res})
 				})
@@ -69,18 +69,18 @@ class Manager extends React.Component<OBJ, any>{
 				<Button type="primary" onClick={() => this.task()}>新增任务</Button>
 			</div>
 			<Table dataSource={list} pagination={false}>
-				<Column title="项目名称" dataIndex="subject" key="subject" />
+				<Column title="项目名称" dataIndex="subjectText" key="subject" />
 				<Column title="迭代目标" dataIndex="title" key="title" />
-				<Column title="开发者" dataIndex="developer" key="developer" />
-				<Column title="提测时间" dataIndex="testTime" key="testTime" />
-				<Column title="发版时间" dataIndex="formalTime" key="formalTime" />
+				<Column title="开发者" dataIndex="developerText" key="developer" />
+				<Column title="提测时间" dataIndex="testTimeText" key="testTime" />
+				<Column title="发版时间" dataIndex="formalTimeText" key="formalTime" />
 				<Column title="备注" dataIndex="comment" key="comment" />
 				<Column title="完成状态" dataIndex="" key="status" render={WrapSwitch} />
 				<Column
 					title="操作"
 					dataIndex=""
 					key="action"
-					render={(text, record: any) => <Action id={record.id} onEidt={this.task} onDel={this.delTask} />}/>
+					render={(text, record: any) => <Action id={record.id} onEidt={this.task} status={record.status} onDel={this.delTask} />}/>
 			</Table>
 			<Task onRef={methods => this.child = methods} onComplete={this.updata} />
 		</div>

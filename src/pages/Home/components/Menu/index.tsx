@@ -24,7 +24,7 @@ class WrapMenu extends React.Component<RouteComponentProps, WrapMenuState>{
 		const { defauleKey } = this.state
 		return <div className="wrapmenu-container">
 			<Menu theme="light" defaultSelectedKeys={[defauleKey]} mode="inline" onClick={this.tab}>
-				<Menu.Item key="home">
+				<Menu.Item key="manager">
 					项目管理
 				</Menu.Item>
 				<Menu.Item key="setting">

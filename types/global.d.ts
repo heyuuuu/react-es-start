@@ -32,8 +32,8 @@ declare namespace DataSql {
 		title: string // 迭代目标
 		describe: string // 需求描述
 		producter: number // 产品
-		testTime: string // 提测时间节点
-		formalTime: string // 正式时间节点
+		testTime: number // 提测时间节点
+		formalTime: number // 正式时间节点
 		developer: Array<string> // 开发者
 		status: boolean // 状态
 		comment: string // 备注
