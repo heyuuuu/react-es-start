@@ -10,7 +10,7 @@ export default class Home extends React.Component<RouteProps>{
 		// router.replace("login")
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
-		console.log(prevProps, prevState, snapshot)
+		console.log("componentDidUpdate", prevProps, prevState, snapshot)
 	}
 	render() {
 		return <div className="flex">
