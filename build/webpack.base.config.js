@@ -18,15 +18,18 @@ const baseConfig = mode === "dev" ? devConfig : proConfig
 module.exports = merge({
 	entry: [relativeRootPath("src/index.tsx")],
 	output: {
+		pathinfo: false,
+		filename: '[fullhash].bundle.js',
+		chunkFilename: '[chunkhash].chunk.js',
 		path: relativeRootPath(BRANCH_CONFIG.outputPath),
 		publicPath: '/'
 	},
 	resolve: {
 		extensions: [".ts",".tsx",".js"],
     alias: {
-			// "src": relativeRootPath('src/')
+			"src": relativeRootPath('src/')
 		},
-		modules: ["node_modules",relativeRootPath('/')]
+		// modules: ["node_modules",relativeRootPath('/')]
 	},
 	module: {
 		rules: [
@@ -71,10 +74,14 @@ module.exports = merge({
 		new HtmlWebpackPlugin({
 			template: "src/index.html"
 		}),
-		new MiniCssExtractPlugin(),
+		new MiniCssExtractPlugin({
+			filename: '[contenthash].css',
+			chunkFilename: '[contenthash].css',
+		}),
 		new webpack.DefinePlugin({
 			BRANCH_CONFIG: JSON.stringify(BRANCH_CONFIG),
-			BRANCH_ENV: JSON.stringify(BRANCH_ENV)
-		})
+			BRANCH_ENV: JSON.stringify(BRANCH_ENV),
+		}),
+		new webpack.ProgressPlugin()
 	]
 },baseConfig)
